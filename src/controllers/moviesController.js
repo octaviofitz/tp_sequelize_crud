@@ -1,5 +1,7 @@
+const { response } = require('express');
 const db = require('../database/models');
 const sequelize = db.sequelize;
+const moment= require('moment')
 
 //Otra forma de llamar a los modelos
 const Movies = db.Movie;
@@ -41,25 +43,56 @@ const moviesController = {
                 res.render('recommendedMovies.ejs', {movies});
             });
     }, //Aqui debemos modificar y completar lo necesario para trabajar con el CRUD
-    add: function (req, res) {
-        // TODO   
+    add: (req, res) => {
+        res.render('moviesAdd',{
+            title: 'Agregar Película'
+        })
     },
-    create: function (req, res) {
-        // TODO
+    create: (req, res) => {
+
+       db.Movie.create({
+            ...req.body
+        })
+        .then(Movie => res.redirect('/movies'))
+        .catch(error => console.log(error))
     },
-    edit: function(req, res) {
-        // TODO
+
+    edit: (req,res) => {
+
+        db.Movie.findByPk(req.params.id)
+        .then(Movie=> res.render('moviesEdit',{
+            Movie
+        }))
+        .catch(error=> console.log(error))   
     },
-    update: function (req,res) {
-        // TODO
+    update: (req,res) => {
+        db.Movie.update({
+            ...req.body
+        },
+        { where: {
+            id: req.params.id
+        }})
+        res.redirect('/movies')
+
     },
-    delete: function (req, res) {
-        // TODO
-    },
-    destroy: function (req, res) {
-        // TODO
+
+    destroy: (req,res)=> {
+       db.Movie.findByPk(req.params.id)
+       .then(movie => res.render('moviesDelete',{
+           movie
+       })
+       .catch(error=> console.log(error))
+       )},
+
+    delete: (req,res) => {
+        db.Movie.destroy({
+            where :{
+                id: req.params.id
+            }})
+        res.redirect('/movies')
     }
 
-}
+    }
+
 
 module.exports = moviesController;

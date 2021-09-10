@@ -16,7 +16,10 @@
     <p>RATING: <%= movie.rating %> </p>
     <p>AWARDS: <%= movie.awards %> </p>
     <p>LENGTH: <%= movie.length + ' min'%> </p>
-    <p>RELEASE DATE: <%= movie.release_date %> </p>
+    <p>RELEASE DATE: <%= movie.release_date %> </p> <br>
+
+    <a href="/movies/edit/<%= movie.id %> ">Editar película</a> <br>
+    <a href="/movies/delete/<%= movie.id %> ">Eliminar película</a>
 
 </body>
 </html>

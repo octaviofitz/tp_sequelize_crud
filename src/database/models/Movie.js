@@ -20,6 +20,10 @@ module.exports = (sequelize, dataTypes) => {
         },
         release_date: {
             type: dataTypes.DATE
+        },
+        genre_id: {
+            type: dataTypes.INTEGER.UNSIGNED,
+            defaultValue: null
         }
     };
     let config = {
